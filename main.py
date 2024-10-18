@@ -20,7 +20,7 @@ def viwe_git():
             files = os.listdir(f"repo/{path}")
             if path[-1] != '/':
                 path = path + '/'
-            return render_template('git_view.html', path=f"{path}", files=" ".join(files), text="")
+            return render_template('git_view.html', path=f"{path}", files=" ".join(files), text="", file_type="")
         else:
             with open(f"repo/{path}", 'r') as f:
                 file = ""
@@ -31,13 +31,30 @@ def viwe_git():
                     file = dir_path[-1] + file
                     dir_path = dir_path[:-1]
                 files = os.listdir(f"repo/{dir_path}")
-                return render_template('git_view.html', path=f"{dir_path}", file = file, files=" ".join(files), text=f.read())
+                file_type = ""
+                if ".cpp" in file:
+                    file_type = "cpp"
+                elif ".c" in file:
+                    file_type = "c"
+                elif ".java" in file:
+                    file_type = "java"
+                elif ".js" in file:
+                    file_type = "javascripts"
+                elif ".md" in file:
+                    file_type = "markdown"
+                elif ".json" in file:
+                    file_type = "json"
+                elif ".py" in file:
+                    file_type = "python"
+                elif ".html" in file:
+                    file_type = "html"
+                return render_template('git_view.html', path=f"{dir_path}", file = file, files=" ".join(files), text=f.read(), file_type=file_type)
 
 @app.route('/api/change', methods=['POST'])
 def change():
     data = request.json
-    path = data.get("file")
-    text = data.get("text")
+    path = str(data.get("file"))
+    text = str(data.get("text"))
     if os.path.exists(f"repo/{path}"):
         response = {'status': 200}
         with open(f"repo/{path}", 'r') as f:
@@ -45,7 +62,8 @@ def change():
         with open(f"repo/{path}", 'w') as f:
             try:
                 f.write(text)
-            except:
+            except Exception as e:
+                print(e)
                 f.write(old_text)
                 response['status'] = 500
         return jsonify(response)

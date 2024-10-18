@@ -1,0 +1,10 @@
+.left_list {
+    width: 20%;
+    height: 100%;
+}
+
+.text_input {
+    resize: none;
+    width: 80%;
+    height: 500px;
+}

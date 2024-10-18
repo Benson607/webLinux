@@ -2,31 +2,54 @@
 <html>
 <head>
     <title>view repo</title>
+    <div id="origin_text" type="hidden" style="display: none;">{{ text }}</div>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/com.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/editor/editor.main.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/loader.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs' } });
+        require(['vs/editor/editor.main'], function() {
+            const editor = monaco.editor.create(document.getElementById('text'), {
+                value: document.getElementById('origin_text').textContent,
+                language: '{{ file_type }}',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                suggestOnTriggerCharacters: true,
+                wordBasedSuggestions: true
+            });
+
+            window.get_str = function() {
+                return editor.getValue();
+            }
+        });
+    </script>
 </head>
 <body>
     <h1>view repo</h1>
+
     <div id="path" style="display: none;">{{ path }}</div>
     <div id="file_now" style="display: none;">{{ file }}</div>
     <div id="file_names" style="display: none;">{{ files }}</div>
-    <div id="file_list" style="width: 20%;"></div>
+
+    <div id="file_list" class="left_list"></div>
     <div>
-        <form id="file_submit" action="api/change" >
-            <textarea id="text" name="text" style="resize: none; width: 80%; height: 1000px;">{{ text }}</textarea>
-            <input type="submit"></input>
-        </form>
+        <div id="text" class="text_input"></div>
+        <button id="submit_button">提交</button>
     </div>
+
     <script>
         var file_list=document.getElementById("file_names").textContent.split(" ");
         document.getElementById("file_list").innerHTML = " ";
         for (let i = 0; i < file_list.length; i++) {
             document.getElementById("file_list").innerHTML += "<a href='view_git?path=" + document.getElementById("path").textContent + file_list[i] + "'>" + file_list[i] + "</a></br>";
         }
-        document.getElementById("file_submit").addEventListener("submit", function (event) {
-            event.preventDefault();
-
+        
+        document.getElementById("submit_button").addEventListener("click", function (event) {
             data = {
                 file: document.getElementById("path").textContent + document.getElementById("file_now").textContent,
-                text: document.getElementById("text").value
+                text: get_str()
             }
 
             fetch('api/change', {
@@ -43,6 +66,13 @@
             .catch(error => {
                 console.log('Error: ' + error.message);
             });
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.key === 's') {
+                event.preventDefault();
+                document.getElementById("submit_button").click()
+            }
         });
     </script>
 </body>

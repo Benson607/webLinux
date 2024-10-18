@@ -2,11 +2,12 @@
 <html>
 <head>
     <title>GitLab</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/com.css') }}">
 </head>
 <body>
     <h1>GitLab</h1>
     <div id="repo_names" style="display: none;">{{ repos }}</div>
-    <div id="repo_list" style="width: 20%;height: 100%;"></div>
+    <div id="repo_list" class="left_list"></div>
     <script>
         var repo_list=document.getElementById("repo_names").textContent.split(" ");
         document.getElementById("repo_list").innerHTML = " ";
