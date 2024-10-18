@@ -1,0 +1,95 @@
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 907-484-477
+127.0.0.1 - - [18/Oct/2024 11:25:29] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:25:39] "GET /gitlab HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:25:39] "[36mGET /static/css/com.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [18/Oct/2024 11:25:41] "GET /view_git?path=test HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:25:41] "[36mGET /static/css/com.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [18/Oct/2024 11:25:58] "GET /view_git?path=test/../.. HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:25:58] "[36mGET /static/css/com.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [18/Oct/2024 11:26:01] "GET /view_git?path=test/../../README.md HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:26:01] "[36mGET /static/css/com.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [18/Oct/2024 11:28:19] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:28:19] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:31:59] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:32:09] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:32:09] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:32:10] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:32:10] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:32:17] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:34:38] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:34:39] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:38:27] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:38:44] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:38:57] "POST /api/change HTTP/1.1" 200 -
+127.0.0.1 - - [18/Oct/2024 11:38:58] "POST /api/change HTTP/1.1" 200 -
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 360-955-260
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 360-955-260
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 360-955-260
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 360-955-260
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 360-955-260
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 360-955-260
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 143-556-733
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 360-955-260
