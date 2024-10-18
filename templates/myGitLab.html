@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitLab</title>
+</head>
+<body>
+    <h1>GitLab</h1>
+    <div id="repo_names" style="display: none;">{{ repos }}</div>
+    <div id="repo_list" style="width: 20%;height: 100%;"></div>
+    <script>
+        var repo_list=document.getElementById("repo_names").textContent.split(" ");
+        document.getElementById("repo_list").innerHTML = " ";
+        for (let i = 0; i < repo_list.length; i++) {
+            document.getElementById("repo_list").innerHTML += "<a href='view_git?path=" + repo_list[i] + "'>" + repo_list[i] + "</a></br>";
+        }
+    </script>
+</body>
+</html>
