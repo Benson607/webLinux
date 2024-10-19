@@ -22,7 +22,7 @@ def viwe_git():
                 path = path + '/'
             return render_template('git_view.html', path=f"{path}", files=" ".join(files), text="", file_type="")
         else:
-            with open(f"repo/{path}", 'r') as f:
+            with open(f"repo/{path}", 'r', encoding="UTF-8") as f:
                 file = ""
                 dir_path = path
                 while 1:
@@ -57,9 +57,9 @@ def change():
     text = str(data.get("text"))
     if os.path.exists(f"repo/{path}"):
         response = {'status': 200}
-        with open(f"repo/{path}", 'r') as f:
+        with open(f"repo/{path}", 'r', encoding="UTF-8") as f:
             old_text = f.read()
-        with open(f"repo/{path}", 'w') as f:
+        with open(f"repo/{path}", 'w', encoding="UTF-8") as f:
             try:
                 f.write(text)
             except Exception as e:
