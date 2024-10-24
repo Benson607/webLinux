@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>login</title>
+    <link rel="icon" sizes="32x32" href="{{ url_for('static', filename='images/main_icon.png') }}" type="image/png">
+</head>
+<body>
+    <h1>登也</h1>
+    <form action="api/login">
+        名<input id="name" type="text"></input>
+        </br>
+        秘鍵<input id="password" type="password"></input>
+        </br>
+        <input type="submit"></input>
+    </form>
+    <h3>無號者?<a href="signup">擊此而註之</a></h3>
+</body>
+</html>

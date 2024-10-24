@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pid=$(pgrep -f webLinux/main.py)
+pid=$(pgrep -f main.py)
 
 echo $pid
 
