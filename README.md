@@ -1,6 +1,6 @@
 # 何以為此案
 此案乃為以終端為形之linux，創其程式之案，亦有C/C++、python、java之案，以無複之、無貼之、無輔之，亦非便也，而欲創此案；
-乃以http之形，而以python為根，所創之服務也；
+乃以https之形，而以python為根，所創之服務也；
 亦為網，而為頁也，嚴以曰之，亦可稱其為網頁；
 以MonacoEditor庫為其輔，輔生複，有複之亦有貼之，亦為便也；
 
@@ -25,8 +25,20 @@
 
     pip install Flask
 
-若其賴者立於爾等之地，則運以python3，曰其名main.py；
+待其賴者立於爾等之地，仍需創公、私鑰，為其https所用；
+運以openssl，請以req，欽以x509之證，示newkey為新鑰，且以rsa2048為其秘法，指其keyout為key.pem，再指其out為cert.pem，宣以days，示其消亡之日，為一春夏秋冬；行之；
 
-    python3 main.py
+    openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
+
+待爾等之地中，現以key.pem、cert.pem，則其鑰樹之；
+運以bash，行以start.sh；
+
+    bash start.sh
 
 此案運之；
+
+若欲止此案；則運以bash，行以stop.sh；
+
+    bash stop.sh
+
+案止；
