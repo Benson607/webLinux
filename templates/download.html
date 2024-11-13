@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>download</title>
+    <link rel="icon" sizes="32x32" href="{{ url_for('static', filename='images/main_icon.png') }}" type="image/png">
+</head>
+<body>
+    <h1>取也</h1>
+    <div id="file_list"></div>
+    {% for i in data %}
+        <a href="/api/download?file={{i}}">{{i}}</a>
+    {% endfor %}
+</body>
+</html>

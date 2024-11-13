@@ -1,52 +1,17 @@
 import os
 import json
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory, session, flash, redirect, url_for
 
 import math
 import bcrypt
 from sympy import randprime
 
-def are_coprime(a, b):
-    return math.gcd(a, b) == 1
+app = Flask(__name__)
 
-def secret():
-    p = randprime(2 ** 1023, 2 ** 1024 - 1)
-    q = randprime(2 ** 1023, 2 ** 1024 - 1)
-    while p % q == 0 or q % p == 0:
-        p = randprime(2 ** 1023, 2 ** 1024 - 1)
-        q = randprime(2 ** 1023, 2 ** 1024 - 1)
-    n = p * q
-    fin = (p - 1) * (q - 1)
-    e = 65537
-    while not are_coprime(e, fin):
-        e += 1
-    k = 1
-    while (fin * k + 1) % e != 0:
-        k += 1
-    d = (fin * k + 1) // e
-    return n, e, d
-
-def resecret(num_hex):
-    print("recive")
-    with open("key", 'r') as f:
-        key = int(f.read())
-    with open("modn", 'r') as f:
-        n = int(f.read())
-
-    num_int = int(num_hex, 16)
-    num_b = bin(pow(num_int, key, n))[2:]
-    print(num_b)
-    while len(num_b) < 64:
-        num_b = '0' + num_b
-    num_str = ""
-    print(num_b)
-    for i in range(0, len(num_b), 8):
-        num_str = num_str + chr(int(num_b[i:i+8], 2))
-        print(num_b[i:i+8])
-
-    print(num_str)
-
-    return num_str
+def check_session():
+    if "username" in session:
+        return True
+    return False
 
 def mk_hash(password):
     password_b = password.encode("UTF-8")
@@ -59,20 +24,9 @@ def check_password(password, hashed):
     password_b = password.encode("UTF-8")
     return bcrypt.checkpw(password_b, hashed.encode("UTF-8"))
 
-def set_key():
-    modn, pub_key, key = secret()
-    with open("key", 'w') as f:
-        f.write(str(key))
-    with open("pub_key", 'w') as f:
-        f.write(str(pub_key))
-    with open("modn", 'w') as f:
-        f.write(str(modn))
-
-app = Flask(__name__)
-
 @app.route('/')
 def home():
-    return render_template('global.html')
+    return render_template('global.html', sess=check_session())
 
 @app.route('/login')
 def login_page():
@@ -125,13 +79,35 @@ def viwe_git():
                     file_type = "html"
                 return render_template('git_view.html', path=f"{dir_path}", file = file, files=" ".join(files), text=f.read(), file_type=file_type)
 
+@app.route("/upload")
+def upload_page():
+    return render_template('upload.html')
+
+@app.route("/download")
+def download_page():
+    data = os.listdir("static/uploads")
+    return render_template('download.html', data=data)
+
+@app.route("/gallery")
+def gallery():
+    return render_template('gallery.html')
+
 @app.route('/api/change', methods=['POST'])
 def change():
+    response = {
+            "status": 200,
+            "text": "成矣"
+        }
+    if not check_session():
+        response = {
+            "status": 409,
+            "text": "未登之"
+        }
+        return response
     data = request.json
     path = str(data.get("file"))
     text = str(data.get("text"))
     if os.path.exists(f"repo/{path}"):
-        response = {'status': 200}
         with open(f"repo/{path}", 'r', encoding="UTF-8") as f:
             old_text = f.read()
         with open(f"repo/{path}", 'w', encoding="UTF-8") as f:
@@ -141,16 +117,32 @@ def change():
                 print(e)
                 f.write(old_text)
                 response['status'] = 500
-        return jsonify(response)
+        return response
     else:
         response = {'status': 405}
-        return jsonify(response)
+        return response
 
 @app.route('/api/login', methods=['POST'])
 def login():
-    name = request.form.get('name')
-    password = request.form.get('password')
-    return 0
+    data = request.get_json()
+    name = data.get('name')
+    password = data.get('password')
+    response = {
+        "status": 200,
+        "text": "成矣"
+    }
+    with open('users.json', 'r') as file:
+        users = json.load(file)
+    if name in list(users.keys()):
+        if check_password(password, users[name]):
+            session["username"] = name
+        else:
+            response["status"] = 409
+            response["text"] = "爾秘鍵亦有誤"
+    else:
+        response["status"] = 409
+        response["text"] = "無此名"
+    return response
 
 @app.route('/api/signup', methods=['POST'])
 def signup():
@@ -158,20 +150,24 @@ def signup():
         "status": 200,
         "text": "成矣"
     }
-    data = request.json
+    data = request.get_json()
     name = str(data.get("name"))
     password = str(data.get("password"))
     with open('users.json', 'r') as file:
-        data = json.load(file)
+        users = json.load(file)
     if name in list(data.keys()):
         response["status"] = 409
         response["text"] = "亦有此名之人也"
         return jsonify(response)
-    password = resecret(password)
-    data[name] = mk_hash(password)
+    users[name] = mk_hash(password)
     with open("users.json", 'w') as file:
-        json.dump(data, file, indent=4)
+        json.dump(users, file, indent=4)
     return jsonify(response)
+
+@app.route('/api/logout')
+def logout():
+    session.pop("username", None)
+    return redirect(url_for('login_page'))
 
 @app.route("/api/get_key")
 def get_pub_key():
@@ -185,5 +181,31 @@ def get_pub_key():
     }
     return response
 
+@app.route("/api/upload", methods=["POST"])
+def upload():
+    response = {
+        "status": 200,
+        "text": "sekses"
+    }
+    file = request.files["video_file"]
+    file.save(f"static/uploads/{file.filename}")
+    return response
+
+@app.route("/api/download", methods=["GET"])
+def download():
+    return send_from_directory("static/uploads", request.args.get("file"), as_attachment=True)
+
+@app.route("/api/check_login", methods=["GET"])
+def check_login():
+    response = {
+        "status": 409,
+        "text": "未登也"
+    }
+    if "username" in session:
+        response["status"] = 200
+        response["text"] = "登也"
+    return jsonify(response)
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.secret_key = 'dp2898km24'
+    app.run(ssl_context=("cert.pem", "key.pem"), host="0.0.0.0", port=4443, debug=True)

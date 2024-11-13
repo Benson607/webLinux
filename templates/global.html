@@ -7,9 +7,19 @@
 <body>
     <div style="display: flex">
     <h1>最上上之空間</h1>
-    <h3 style=" position: relative; top: 15px; left: 30px;"><a href="login">登之</a></h3>
-    <h3 style=" position: relative; top: 15px; left: 40px;"><a href="signup">註之</a></h3>
+    {% if not sess %}
+        <h3 style=" position: relative; top: 15px; left: 30px;"><a href="login">登之</a></h3>
+        <h3 style=" position: relative; top: 15px; left: 40px;"><a href="signup">註之</a></h3>
+    {% else  %}
+        <h3 style=" position: relative; top: 15px; left: 40px;"><a href="api/logout">離之</a></h3>
+    {% endif  %}
     </div>
     <a href="gitlab">GitLab</a>
+    </br>
+    <a href="upload">遞之</a>
+    </br>
+    <a href="download">取之</a>
+    </br>
+    <a href="gallery">圖之</a>
 </body>
 </html>

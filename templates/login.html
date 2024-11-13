@@ -6,13 +6,35 @@
 </head>
 <body>
     <h1>登也</h1>
-    <form action="api/login">
-        名<input id="name" type="text"></input>
-        </br>
-        秘鍵<input id="password" type="password"></input>
-        </br>
-        <input type="submit"></input>
-    </form>
+    名<input id="name" type="text"></input>
+    </br>
+    秘鍵<input id="password" type="password"></input>
+    </br>
+    <button id="submit_button">登之</button>
+
     <h3>無號者?<a href="signup">擊此而註之</a></h3>
+    <script>
+        document.getElementById("submit_button").addEventListener("click", function(event) {
+            data = {
+                name: document.getElementById("name").value,
+                password: document.getElementById("password").value
+            }
+            fetch('api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                console.log(JSON.stringify(data));
+            })
+            .catch(error => {
+                console.log('Error: ' + error.message);
+            });
+        });
+    </script>
 </body>
 </html>

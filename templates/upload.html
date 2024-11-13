@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>upload</title>
+    <link rel="icon" sizes="32x32" href="{{ url_for('static', filename='images/main_icon.png') }}" type="image/png">
+</head>
+<body>
+    <h1>遞也</h1>
+    <form id="upload_form" enctype="multipart/form-data">
+        <input type="file" id="video_file" name="video_file" accept="video/*" required>
+        </br>
+        <button id="submit_button">遞之</button>
+    </form>
+    <script>
+        document.getElementById("submit_button").addEventListener("click", function(event) {
+            event.preventDefault();
+
+            const fileInput = document.getElementById("video_file");
+            const file = fileInput.files[0];
+            if (!file) {
+                alert("請選擇一個影片文件！");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("video_file", file);
+
+            fetch("/api/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(JSON.stringify(data));
+            })
+            .catch(error => {
+                console.log('Error: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -10,59 +10,25 @@
     </br>
     秘鍵<input id="password" type="password"></input>
     </br>
-    <button id="submit_button">提交</button>
+    <button id="submit_button">註之</button>
 
     <h3>擁號者?<a href="login">擊此而登之</a></h3>
     <script>
         document.getElementById("submit_button").addEventListener("click", function(event) {
-            var modn = BigInt(0);
-            var pub_key = BigInt(0);
-            fetch('api/get_key', {
-                method: 'GET'
+            data = {
+                name: document.getElementById("name").value,
+                password: document.getElementById("password").value
+            }
+            fetch('api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             })
             .then(response => response.json())
-            .then(result => {
-                modn = BigInt(result["modn"]);
-                pub_key = BigInt(result["pub_key"]);
-                str_utf_8 = document.getElementById("password").value.split('').map(char => char.charCodeAt(0));
-                sum = 0;
-                for (let i = 0; i < str_utf_8.length; i++) {
-                    //sum += str_utf_8[str_utf_8.length - i - 1] * Math.pow(256, i);
-                    temp = str_utf_8[i].toString(2);
-                    while (temp.length < 8) {
-                        temp = "0" + temp;
-                    }
-                    sum += temp;
-                    console.log(sum.toString(2));
-                    console.log(sum);
-                }
-                console.log(str_utf_8);
-                console.log(sum.toString(2));
-                password_bigint = BigInt("0b" + sum);
-                console.log(password_bigint);
-                password_bigint = BigInt(password_bigint**pub_key);
-                password_bigint = BigInt(password_bigint % modn);
-                console.log(modn);
-                console.log(pub_key);
-                console.log(password_bigint);
-                data = {
-                    name: document.getElementById("name").value,
-                    password: password_bigint.toString(16)
-                }
-                fetch('api/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(JSON.stringify(data));
-                })
-                .catch(error => {
-                    console.log('Error: ' + error.message);
-                });
+            .then(data => {
+                console.log(JSON.stringify(data));
             })
             .catch(error => {
                 console.log('Error: ' + error.message);
